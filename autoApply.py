@@ -14,7 +14,7 @@ def login(username: str, password: str):
     matchLT = re.findall(r'<input type="hidden" name="lt" value="(.*)" />',
                          resp.text)
     if len(matchLT) == 0:
-        print("登录 CSRF 加载错误")
+        print("[x] 登录 CSRF 加载错误")
         return ""
     lt = matchLT[0]
 
@@ -45,9 +45,9 @@ def apply(username: str, password: str, phone: str, destination: str,
           reason: str, teacher: object):
     name = login(username, password)
     if name == "":
-        print(username, "登录失败")
+        print('[x] 申请成功')
         return
-    print(name, "登录成功")
+    print('[*] 登录成功')
 
     college = getCollege()
 
@@ -125,19 +125,14 @@ def apply(username: str, password: str, phone: str, destination: str,
             "x-requested-with": "XMLHttpRequest",
         })
     resp.encoding = "utf-8"
-    print(json.loads(resp.text)['m'])
+    print('[*] 申请成功')
 
 
 if __name__ == "__main__":
     username = os.environ['USERNAME']
     password = os.environ['PASSWORD']
     phone = os.environ['PHONE']
-    destination = 'Automatic Apply Script by h0lyduck'
-    reason = 'Automatic Apply Script by h0lyduck'
     teacher = {"uid": int(os.environ['TEACHER_UID']), "name": os.environ['TEACHER_NAME'], "number": os.environ['TEACHER_NUMBER']}
-    print(username)
-    print(phone)
-    print(destination)
-    print(reason)
-    print(teacher)
+    destination = os.getenv('DESTINATION','柏油')
+    reason = os.getenv('REASON','打工')
     apply(username, password, phone, destination, reason, teacher)
