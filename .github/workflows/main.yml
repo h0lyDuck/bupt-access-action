@@ -9,21 +9,21 @@ jobs:
   Apply:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout actions
-    - uses: actions/checkout@v1
+      - name: checkout actions
+      - uses: actions/checkout@v1
 
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-        
-    - name: Automatic Apply
-      run: |
-        python autoApply.py
-      env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          PHONE: ${{ secrets.PHONE }}
-          TEACHER_UID: ${{ secrets.TEACHER_UID }}
-          TEACHER_NAME: ${{ secrets.TEACHER_NAME }}
-          TEACHER_NUMBER: ${{ secrets.TEACHER_NUMBER }}
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Automatic Apply
+        run: |
+          python autoApply.py
+        env:
+            USERNAME: ${{ secrets.USERNAME }}
+            PASSWORD: ${{ secrets.PASSWORD }}
+            PHONE: ${{ secrets.PHONE }}
+            TEACHER_UID: ${{ secrets.TEACHER_UID }}
+            TEACHER_NAME: ${{ secrets.TEACHER_NAME }}
+            TEACHER_NUMBER: ${{ secrets.TEACHER_NUMBER }}
