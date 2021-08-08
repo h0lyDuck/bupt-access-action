@@ -62,56 +62,44 @@ def apply(username: str, password: str, phone: str, destination: str,
             timespec="microseconds").replace("000+00:00", "Z")
 
     data = {
-        "app_id": "578",
-        "node_id": "",
-        "form_data": {
-            "1716": {
-                "User_5":
-                name,  # 姓名
-                "User_7":
-                username,  # 学号
-                "User_9":
-                college,  # 学院
-                "User_11":
-                phone,  # 电话
-                "Alert_65":
-                "",
-                "Alert_67":
-                "",
-                "Input_28":
-                destination,  # 外出去向
-                "Radio_52": {
-                    "value": "1",
-                    "name": "本人已阅读并承诺"
+        "app_id":"578",
+        "node_id":"",
+        "form_data":{
+            "1716":{
+                "User_5":name, # 姓名
+                "User_7":username, # 学号
+                "User_9":college, # 学院
+                "User_11":phone, # 手机号
+                "Alert_65":"",
+                "Alert_67":"",
+                "Count_74": # 外出天数
+                {
+                    "type":0,
+                    "value":1
                 },
-                "Calendar_47":
-                endTime,  # 返校时间
-                "Calendar_50":
-                beginTime,  # 外出时间
-                "Calendar_62":
-                date,  # 日期
-                "SelectV2_58": [{
-                    "name": "沙河校区",
-                    "value": "1",
-                    "default": 0,
-                    "imgdata": ""
-                }, {
-                    "name": "西土城校区",
-                    "value": "2",
-                    "default": 0,
-                    "imgdata": ""
-                }],
-                "Validate_63":
-                "",
-                "Validate_66":
-                "",
-                "MultiInput_30":
-                reason,  # reason
-                "UserSearch_60":
-                teacher
-            }
+                "Input_28":destination, # 外出去向
+                "Radio_52": # 承诺
+                {
+                    "value":"1",
+                    "name":"本人已阅读并承诺"
+                },
+                "Radio_73": # 是否接种疫苗
+                {
+                    "value":"1",
+                    "name":"是"
+                },
+                "Calendar_47":endTime, # 返校时间
+                "Calendar_50":beginTime, # 外出时间
+                "Calendar_62":date, # 出校日期
+                "Calendar_69":date, # 返校日期
+                "SelectV2_58":[{"name":"沙河校区","value":"1","default":0,"imgdata":""},{"name":"西土城校区","value":"2","default":0,"imgdata":""}],
+                "Validate_63":"",
+                "Validate_66":"",
+                "MultiInput_30":reason, # 外出原因
+                "UserSearch_60":teacher # 辅导员
+                }
         },
-        "userview": 1
+        "userview":1
     }
 
     resp = session.post(
@@ -132,7 +120,11 @@ if __name__ == "__main__":
     username = os.environ['USERNAME']
     password = os.environ['PASSWORD']
     phone = os.environ['PHONE']
-    teacher = {"uid": int(os.environ['TEACHER_UID']), "name": os.environ['TEACHER_NAME'], "number": os.environ['TEACHER_NUMBER']}
-    destination = os.getenv('DESTINATION','柏油')
-    reason = os.getenv('REASON','打工')
+    teacher = {
+        "uid": int(os.environ['TEACHER_UID']),
+        "name": os.environ['TEACHER_NAME'],
+        "number": os.environ['TEACHER_NUMBER']
+    }
+    destination = os.getenv('DESTINATION', '柏油')
+    reason = os.getenv('REASON', '打工')
     apply(username, password, phone, destination, reason, teacher)

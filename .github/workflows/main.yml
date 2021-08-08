@@ -2,7 +2,7 @@ name: Automatically apply the access permit of BUPT
 
 on:
   schedule:
-    - cron: "0/10 0 * * *"
+    - cron: "0 0 * * *"
   push:
 
 jobs:
@@ -24,6 +24,30 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Automatic Apply
+        run: |
+          python autoApply.py
+        env:
+            USERNAME: ${{ secrets.USERNAME }}
+            PASSWORD: ${{ secrets.PASSWORD }}
+            PHONE: ${{ secrets.PHONE }}
+            TEACHER_UID: ${{ secrets.TEACHER_UID }}
+            TEACHER_NAME: ${{ secrets.TEACHER_NAME }}
+            TEACHER_NUMBER: ${{ secrets.TEACHER_NUMBER }}
+
+      - name: First Retry
+        if: ${{ failure() }}
+        run: |
+          python autoApply.py
+        env:
+            USERNAME: ${{ secrets.USERNAME }}
+            PASSWORD: ${{ secrets.PASSWORD }}
+            PHONE: ${{ secrets.PHONE }}
+            TEACHER_UID: ${{ secrets.TEACHER_UID }}
+            TEACHER_NAME: ${{ secrets.TEACHER_NAME }}
+            TEACHER_NUMBER: ${{ secrets.TEACHER_NUMBER }}
+
+      - name: Second Retry
+        if: ${{ failure() }}
         run: |
           python autoApply.py
         env:
